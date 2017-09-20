@@ -5,32 +5,36 @@ class Oscillator extends Component {
     super(props);
     this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     this.state = {
-      values: [300, 400, 102]
+      value: 300
     };
   }
 
   componentDidMount(){
-    this.chord()
+    this.oscillator()
   }
 
+  componentDidUpdate(){
+    this.oscillator()
+  }
 
   // create Oscillator
   oscillator(value) {
     let oscillator = this.audioCtx.createOscillator();
     console.log(oscillator);
     oscillator.type = 'sine';
-    oscillator.frequency.value = value; // value in hertz
+    oscillator.frequency.value = this.props.value; // value in hertz
     oscillator.start();
     oscillator.connect(this.audioCtx.destination);
   }
 
-  chord(){
-    for (var i = 0; i < this.state.values.length; i++) {
-      this.oscillator(this.state.values[i])
-    }
-  }
+  // chord(){
+  //   for (var i = 0; i < this.state.values.length; i++) {
+  //     this.oscillator(this.state.values[i])
+  //   }
+
 
   render() {
+
     return (
       <div className="App">
       </div>
