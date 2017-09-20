@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ip from '../Server/ip.json';
+import Oscillator from './Oscillator';
 
 class Main extends Component {
   constructor(props){
@@ -39,6 +40,7 @@ class Main extends Component {
       <div className="App">
         <h2>| Phone Synth |</h2>
         <h2 style={styles.random}>{this.state.data}</h2>
+        <Oscillator/>
       </div>
     );
   }
