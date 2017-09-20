@@ -3,30 +3,46 @@ import React, { Component } from 'react';
 class Oscillator extends Component {
   constructor(props){
     super(props);
-    this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.oscillator = this.ctx.createOscillator();
+    this.gainNode = this.ctx.createGain();
+    this.oscillator.connect(this.gainNode);
+    this.oscillator.start(this.ctx.currentTime);
+    this.gainNode.connect(this.ctx.destination);
+    this.oscillator.type = 'sine';
+
+
     this.state = {
       value: 300
     };
   }
 
   componentDidMount(){
-    this.oscillator()
+    this.play()
   }
 
   componentDidUpdate(){
-    this.oscillator()
+    this.play()
   }
 
   // create Oscillator
-  oscillator(value) {
-    let oscillator = this.audioCtx.createOscillator();
-    console.log(oscillator);
-    oscillator.type = 'sine';
-    oscillator.frequency.value = this.props.value; // value in hertz
-    oscillator.start();
-    oscillator.connect(this.audioCtx.destination);
-  }
+  play() {
 
+    if (this.ctx) {
+      this.oscillator.frequency.value = this.props.value;
+      this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
+      this.gainNode.gain.exponentialRampToValueAtTime(0.2, this.ctx.currentTime + 0.03);
+    } else {
+      // this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
+      // this.gainNode.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.03);
+      // this.gainNode.gain.exponentialRampToValueAtTime(0.2, this.ctx.currentTime + 0.03);
+
+
+      // oscillator.stop();
+      // oscillator.disconnect(gainNode);
+      // osc = null;
+    }
+  }
   // chord(){
   //   for (var i = 0; i < this.state.values.length; i++) {
   //     this.oscillator(this.state.values[i])
