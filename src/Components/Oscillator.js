@@ -25,29 +25,14 @@ class Oscillator extends Component {
     this.play()
   }
 
-  // create Oscillator
   play() {
 
     if (this.ctx) {
       this.oscillator.frequency.value = this.props.value;
       this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
       this.gainNode.gain.exponentialRampToValueAtTime(0.2, this.ctx.currentTime + 0.03);
-    } else {
-      // this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
-      // this.gainNode.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.03);
-      // this.gainNode.gain.exponentialRampToValueAtTime(0.2, this.ctx.currentTime + 0.03);
-
-
-      // oscillator.stop();
-      // oscillator.disconnect(gainNode);
-      // osc = null;
     }
   }
-  // chord(){
-  //   for (var i = 0; i < this.state.values.length; i++) {
-  //     this.oscillator(this.state.values[i])
-  //   }
-
 
   render() {
 
@@ -58,13 +43,6 @@ class Oscillator extends Component {
   }
 }
 
-const styles = {
-  random: {
-    overflowWrap: 'break-word',
-    textAlign: 'center',
-    color: 'green',
-  }
-};
 
 export default Oscillator;
 

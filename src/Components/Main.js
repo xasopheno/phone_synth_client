@@ -41,7 +41,6 @@ class Main extends Component {
         <h2>| Phone Synth |</h2>
         <h2 style={styles.random}>{this.state.data}</h2>
         <Oscillator value={this.state.data}/>
-        <p>Connected?{this.state.open}</p>
       </div>
     );
   }
