@@ -3,34 +3,47 @@ import React, { Component } from 'react';
 class Oscillator extends Component {
   constructor(props){
     super(props);
-    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-    this.oscillator = this.ctx.createOscillator();
-    this.gainNode = this.ctx.createGain();
-    this.oscillator.connect(this.gainNode);
-    this.oscillator.start(this.ctx.currentTime);
-    this.gainNode.connect(this.ctx.destination);
-    this.oscillator.type = 'sine';
-
-
     this.state = {
-      value: 300
+      value: 0
     };
   }
 
-  componentDidMount(){
-    this.play()
+  startAudio(){
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.gainNode = this.ctx.createGain();
+
+    this.oscillators = [];
+      for(let i = 0; i < 4; i++) {
+        this.oscillators.push(this.ctx.createOscillator());
+    }
+    for(let j = 0; j < 4; j++){
+      console.log(j, this.oscillators[j])
+      this.oscillators[j].connect(this.gainNode);
+      this.oscillators[j].start(this.ctx.currentTime);
+      this.oscillators[j].type = 0;
+    }
+
+    this.gainNode.connect(this.ctx.destination);
   }
 
   componentDidUpdate(){
     this.play()
   }
 
-  play() {
 
+  play() {
     if (this.ctx) {
-      this.oscillator.frequency.value = this.props.value;
+      this.oscillators[0].frequency.setValueAtTime(this.props.value * 2, this.ctx.currentTime);
+      this.oscillators[1].frequency.setValueAtTime(this.props.value * 3/2, this.ctx.currentTime + .5);
+      this.oscillators[2].frequency.setValueAtTime(this.props.value * 5/4, this.ctx.currentTime + .1);
+      this.oscillators[3].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + .15);
+
       this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
-      this.gainNode.gain.exponentialRampToValueAtTime(0.2, this.ctx.currentTime + 0.03);
+      let gain = .2;
+      if (this.props.value < 500){
+        gain = .3;
+      }
+      this.gainNode.gain.exponentialRampToValueAtTime(gain, this.ctx.currentTime + 0.03);
     }
   }
 
@@ -38,6 +51,12 @@ class Oscillator extends Component {
 
     return (
       <div className="App">
+        <button
+          type="button"
+          onClick={this.startAudio.bind(this)}
+        >
+          Join
+        </button>
       </div>
     );
   }

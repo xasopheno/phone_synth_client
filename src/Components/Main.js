@@ -28,11 +28,15 @@ class Main extends Component {
   }
 
   processData(data) {
+    if (!parseInt(data, 10)){
+      data = 0
+    };
     this.setState({
       ...this.state,
       data: data
     })
   }
+
 
 
   render() {
