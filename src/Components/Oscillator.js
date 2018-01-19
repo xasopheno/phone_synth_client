@@ -40,8 +40,8 @@ class Oscillator extends Component {
     if (this.ctx) {
       console.log(this.ctx.currentTime)
       this.oscillators[0].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
-      this.oscillators[1].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
-      this.oscillators[2].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
+      this.oscillators[1].frequency.setValueAtTime(this.props.value + 2, this.ctx.currentTime + 0);
+      this.oscillators[2].frequency.setValueAtTime(this.props.value + 3, this.ctx.currentTime + 0);
       this.oscillators[3].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
 
       this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);

@@ -39,7 +39,7 @@ def freq_change(sid, data):
     sio.emit('freq', output)
 
 @sio.on('song_change')
-def freq_change(sid, data):
+def song_freq_change(sid, data):
     freq1 = data['freq1']
     freq2 = data['freq2']
 

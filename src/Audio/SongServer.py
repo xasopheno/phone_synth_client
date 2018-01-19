@@ -16,7 +16,7 @@ def random_song(start, end):
 
 
 def pretty():
-    x = 300
+    x = 100
     freqs = [
         [x, x * 5/4],
         [x, x * 5/4],
@@ -37,7 +37,7 @@ def pretty():
             }
 
             socketIO.emit('song_change', payload)
-            time.sleep(.6)
+            time.sleep(3)
 
     start = 800
     end = 1000
