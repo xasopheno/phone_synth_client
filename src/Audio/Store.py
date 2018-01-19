@@ -1,7 +1,6 @@
 import math
 from sklearn.preprocessing import MinMaxScaler
 
-
 class Store:
     def __init__(self):
         self.__note = 0
