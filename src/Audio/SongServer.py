@@ -55,7 +55,7 @@ def pretty():
     socketIO.emit('song_change', payload)
     time.sleep(.4)
 
-with SocketIO('phone-synth.herokuapp.com', 25707, LoggingNamespace) as socketIO:
+with SocketIO('phone-synth.herokuapp.com', 80, LoggingNamespace) as socketIO:
     while True:
         pretty()
 
