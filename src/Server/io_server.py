@@ -6,12 +6,16 @@ import random
 sio = socketio.Server(logger=True, async_mode=None)
 app = Flask(__name__)
 
+
 class Counter:
     def __init__(self):
         self.count = 0
 
     def inc(self):
         self.count += 1
+
+counter = Counter()
+
 
 @sio.on('connect')
 def connect(sid, environ):
@@ -58,8 +62,9 @@ def message(sid, data):
 def disconnect(sid):
     print('disconnect ', sid)
 
+
+app = socketio.Middleware(sio, app)
+
 if __name__ == '__main__':
-    counter = Counter()
-    app = socketio.Middleware(sio, app)
 
     eventlet.wsgi.server(eventlet.listen(('localhost', 8000)), app)
