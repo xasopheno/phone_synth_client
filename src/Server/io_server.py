@@ -13,7 +13,6 @@ class Counter:
     def inc(self):
         self.count += 1
 
-
 @sio.on('connect')
 def connect(sid, environ):
     print('client_connect', sid)
@@ -22,42 +21,37 @@ def connect(sid, environ):
     print(counter.count)
 
 
+def prepare_payload(freq1, freq2):
+    payload = {
+        'freq1': freq1,
+        'freq2': freq2,
+        'vol': 100
+    }
+    return payload
+
+
 @sio.on('freq_change')
 def freq_change(sid, data):
     freq1 = data['freq']
     freq2 = data['freq'] * 3/2
-    vol = data['vol']
 
-    output = {
-        'freq1': freq1,
-        'freq2': freq2,
-        'vol': vol,
-    }
+    output = prepare_payload(freq1, freq2)
     sio.emit('freq', output)
 
 @sio.on('song_change')
 def freq_change(sid, data):
     freq1 = data['freq1']
     freq2 = data['freq2']
-    vol = data['vol']
 
-    output = {
-        'freq1': freq1,
-        'freq2': freq2,
-        'vol': vol,
-    }
-    sio.emit('freq', output)
+    payload = prepare_payload(freq1, freq2)
+    sio.emit('freq', payload)
 
 @sio.on('echo')
 def message(sid, data):
     rand = random.randint(100, 300)
-    payload = {
-        'freq1': rand,
-        'freq2': rand,
-        'vol': 100,
-               }
+    payload = prepare_payload(rand, rand)
+
     sio.emit('freq', payload)
-    print('freq', rand)
 
 
 @sio.on('disconnect')

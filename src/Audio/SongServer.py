@@ -7,12 +7,12 @@ def random_song(start, end):
     rand = random.randint(start, end)
     payload = {
         'freq1': rand,
-        'freq2': rand * random.choice([3/2, 5/4, 15/8, 7/4, 9/8, 25/24, 25/24]),
+        'freq2': rand * random.choice([9/8, 25/24, 5/4]),
         'vol': 100,
     }
 
     socketIO.emit('song_change', payload)
-    time.sleep(random.choice([0.05]))
+    time.sleep(random.choice([0.07]))
 
 
 def pretty():
@@ -41,10 +41,19 @@ def pretty():
 
     start = 800
     end = 1000
-    for i in range(15):
+    for i in range(12):
         random_song(start, end)
         start -= 50
         end -= 50
+
+    payload = {
+        'freq1': x * 15/8/ 2,
+        'freq2': x * 4/3,
+        'vol': 100,
+    }
+
+    socketIO.emit('song_change', payload)
+    time.sleep(.4)
 
 with SocketIO('127.0.0.1', 8000, LoggingNamespace) as socketIO:
     while True:
