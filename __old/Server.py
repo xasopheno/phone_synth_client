@@ -7,7 +7,7 @@ import json
 from src.Server.StreamToFrequency import Generator
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
+s.connect(("192.168.1.151", 80))
 ip = s.getsockname()[0]
 s.close()
 
@@ -23,10 +23,10 @@ async def data():
         yield random.randrange(100, 1000, 15)
 
 async def test(websocket, path):
-    async for i in generator.generate_set():
+    async for i in data():
         print(i)
         await websocket.send(str(i))
-        # await asyncio.sleep(.4)
+        await asyncio.sleep(.4)
 
 # if __name__ == '__main__':ç
 

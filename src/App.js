@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Main from './Components/Main.js'
+import Main from './Components/ioMain.js'
+// import MyMain from './Components/ioMain';
 
 class App extends Component {
   constructor(props){
@@ -10,9 +11,10 @@ class App extends Component {
     }
   }
   render() {
+    console.log('app.js')
     return (
       <div className="App">
-        <Main/>
+        <Main />
       </div>
     );
   }

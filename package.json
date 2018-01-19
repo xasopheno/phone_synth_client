@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "install": "^0.10.1",
+    "npm": "^5.4.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-scripts": "1.0.13"
+    "react-scripts": "1.0.13",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
   },
   "scripts": {
     "start": "react-scripts start",
