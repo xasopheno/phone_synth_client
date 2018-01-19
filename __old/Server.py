@@ -4,12 +4,13 @@ import random
 import websockets
 import socket
 import json
-from StreamToFrequency import Generator
+from src.Server.StreamToFrequency import Generator
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
 ip = s.getsockname()[0]
 s.close()
+
 
 generator = Generator()
 # generator.generate_set()

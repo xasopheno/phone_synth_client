@@ -22,7 +22,7 @@ class App extends Component {
   }
 
   readTextFile() {
-    let json = require('./Server/ip.json');
+    let json = require('./../src/Server/ip.json');
     return(json.ip)
 }
 
