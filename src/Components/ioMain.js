@@ -13,7 +13,7 @@ class ioMain extends Component {
     };
 
     // // this.socket = openSocket(`ws://${this.readTextFile()}:5678/`);
-    this.socket = io('localhost:8000');
+    this.socket = io('phone-synth.herokuapp.com:25707');
 
     console.log('test')
   }
