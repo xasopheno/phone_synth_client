@@ -37,7 +37,7 @@ def pretty():
             }
 
             socketIO.emit('song_change', payload)
-            time.sleep(3)
+            time.sleep(.6)
 
     start = 800
     end = 1000
