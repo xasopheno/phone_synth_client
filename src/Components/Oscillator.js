@@ -21,7 +21,7 @@ class Oscillator extends Component {
       for(let j = 0; j < 4; j++){
         this.oscillators[j].connect(this.gainNode);
         this.oscillators[j].start(this.ctx.currentTime);
-        this.oscillators[j].type = 'triangle';
+        this.oscillators[j].type = 'sine';
       }
 
       this.gainNode.connect(this.ctx.destination);
@@ -32,22 +32,30 @@ class Oscillator extends Component {
     }
   }
 
+  componentWillUpdate(nextProps) {
+    if (this.props.value && nextProps.value !== 0 && this.props.value === 0) {
+      this.gainNode.gain.exponentialRampToValueAtTime(.04, this.ctx.currentTime + 0.02);
+    }
+  }
+
   componentDidUpdate(){
     this.play()
   }
 
   play() {
     if (this.ctx) {
-      console.log(this.ctx.currentTime)
-      this.oscillators[0].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
-      this.oscillators[1].frequency.setValueAtTime(this.props.value + 2, this.ctx.currentTime + 0);
-      this.oscillators[2].frequency.setValueAtTime(this.props.value + 3, this.ctx.currentTime + 0);
+      if (this.props.values == 0) {
+        this.gainNode.gain.exponentialRampToValueAtTime(0, this.ctx.currentTime + 0.01);
+      }
+      this.oscillators[0].frequency.setValueAtTime(this.props.value * 3/2, this.ctx.currentTime + 0);
+      this.oscillators[1].frequency.setValueAtTime(this.props.value / 2, this.ctx.currentTime + 0);
+      this.oscillators[2].frequency.setValueAtTime(this.props.value * 2, this.ctx.currentTime + 0);
       this.oscillators[3].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
 
       this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
-      let gain = .2;
+      let gain = .04;
       if (this.props.value < 500){
-        gain = .3;
+        gain = .05;
       }
       this.gainNode.gain.exponentialRampToValueAtTime(gain, this.ctx.currentTime + 0.01);
     }

@@ -12,8 +12,8 @@ class ioMain extends Component {
       count: null,
     };
 
-    // // this.socket = openSocket(`ws://${this.readTextFile()}:5678/`);
-    this.socket = io('phone-synth.herokuapp.com:80');
+    this.socket = io('phone-synth-server.herokuapp.com:80');
+    // this.socket = io('localhost:9876');
 
     console.log('test')
   }
@@ -54,7 +54,7 @@ class ioMain extends Component {
     let freq = data.freq1;
     if (this.state.count % 2 === 0) {
       freq = data.freq2;
-    }
+  }
 
     console.log(freq)
 ;
@@ -64,6 +64,12 @@ class ioMain extends Component {
     })
   }
 
+  stop(){
+    this.setState({
+      ...this.state,
+      data: 0
+    })
+  }
 
 
   render() {
@@ -76,7 +82,13 @@ class ioMain extends Component {
           type="button"
           onClick={this.sendmessage.bind(this)}
         >
-          button
+          change
+        </button>
+        <button
+          type="button"
+          onClick={this.stop.bind(this)}
+        >
+          stop
         </button>
       </div>
     );
