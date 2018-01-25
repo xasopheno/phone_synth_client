@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ip from '../Server/ip.json';
+import ip from '../../Server/ip.json';
 import Oscillator from './Oscillator';
 
 class Main extends Component {
