@@ -12,7 +12,7 @@ class ioMain extends Component {
       count: null,
     };
 
-    this.socket = io('phone-synth-server.herokuapp.com:80');
+    this.socket = io('phone-synth-server.herokuapp.com');
     // this.socket = io('localhost:9876');
 
     console.log('test')
