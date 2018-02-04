@@ -44,7 +44,7 @@ class Oscillator extends Component {
 
   play() {
     if (this.ctx) {
-      if (this.props.values == 0) {
+      if (this.props.values === 0) {
         this.gainNode.gain.exponentialRampToValueAtTime(0, this.ctx.currentTime + 0.01);
       }
       this.oscillators[0].frequency.setValueAtTime(this.props.value * 3/2, this.ctx.currentTime + 0);
