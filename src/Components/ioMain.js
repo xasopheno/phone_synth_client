@@ -18,7 +18,8 @@ class ioMain extends Component {
       tempo: 250,
     };
 
-    this.socket = io('phone-synth-server.herokuapp.com');
+    this.socket = io('phone-synth-server.herokuapp.com',
+      {transports: ['websocket']});
     // this.socket = io('localhost:9876');
 
     console.log('test')
@@ -67,11 +68,11 @@ class ioMain extends Component {
     this.setState({
       ...this.state,
       freqs: buffer,
-    })
+    });
 
-    if (this.interval) {
-      this.iterateLoop();
-    }
+    // if (this.interval) {
+      // this.iterateLoop();
+    // }
   }
 
   silence(){
@@ -158,7 +159,9 @@ class ioMain extends Component {
   render() {
     return (
       <div className="App">
-        <h2>| Phone Synth | Part {this.state.part} </h2>
+        <h2>| Phone Synth |
+          {/*Part {this.state.part} */}
+          </h2>
         {this.renderFreqs()}
         <Oscillator value={this.state.freqs[this.state.current_freq]}/>
         <button
@@ -185,13 +188,13 @@ class ioMain extends Component {
           </button>
         </div>
 
-        <div>
-        <button
-          type="button"
-          onClick={this.changePart.bind(this)}>
-          change part
-        </button>
-        </div>
+        {/*<div>*/}
+        {/*<button*/}
+          {/*type="button"*/}
+          {/*onClick={this.changePart.bind(this)}>*/}
+          {/*change part*/}
+        {/*</button>*/}
+        {/*</div>*/}
 
         <div style={{margin: "5%"}}>
           <Slider
@@ -200,7 +203,6 @@ class ioMain extends Component {
             onChange={this.handleLoopLengthChange.bind(this)}
             max={10}
             min={1}
-            labels={this.prepareLabels()}
           />
         </div>
 
