@@ -14,14 +14,17 @@ class ioMain extends Component {
       count: null,
       part: 1,
       current_freq: 0,
-      loop_length: 5,
-      tempo: 250,
+      loop_length: this.random_in_range(2, 4),
+      tempo: 200
     };
 
     this.socket = io('phone-synth-server.herokuapp.com',
       {transports: ['websocket']});
     // this.socket = io('localhost:9876');
 
+    this.socket.on('reconnect_attempt', () => {
+      this.socket.io.opts.transports = ['polling', 'websocket'];
+    });
     console.log('test')
   }
 
@@ -33,6 +36,10 @@ class ioMain extends Component {
     this.socket.on('disconnect', function() {console.log('disconnected')});
 
     this.socket.on('freq', this.updateFreq.bind(this))
+  }
+
+  random_in_range(minimum, maximum) {
+    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
   }
 
   prepareBuffer() {
@@ -141,7 +148,7 @@ class ioMain extends Component {
   renderFreq(freq, index) {
     if (index === this.state.current_freq) {
       return <p style={styles.random} key={index}>{freq}</p>
-    } else if (index > this.state.loop_length) {
+    } else if (index >= this.state.loop_length) {
       return <p style={{color: "#aaa"}} key={index}>{freq}</p>
     } else {
       return <p key={index}>{freq}</p>
