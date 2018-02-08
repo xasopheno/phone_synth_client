@@ -47,10 +47,10 @@ class Oscillator extends Component {
       if (this.props.values === 0) {
         this.gainNode.gain.exponentialRampToValueAtTime(0, this.ctx.currentTime + 0.01);
       }
-      this.oscillators[0].frequency.setValueAtTime(this.props.value * 3/2, this.ctx.currentTime + 0);
-      this.oscillators[1].frequency.setValueAtTime(this.props.value / 2, this.ctx.currentTime + 0);
+      this.oscillators[0].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
+      this.oscillators[1].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
       this.oscillators[2].frequency.setValueAtTime(this.props.value * 2, this.ctx.currentTime + 0);
-      this.oscillators[3].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
+      this.oscillators[3].frequency.setValueAtTime(this.props.value * 4, this.ctx.currentTime + 0);
 
       this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, this.ctx.currentTime);
       let gain = .04;
