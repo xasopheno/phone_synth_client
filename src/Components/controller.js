@@ -5,7 +5,7 @@ import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import connect_to_socket from '../helpers/connect_to_socket';
 
-class ioMain extends Component {
+class Controller extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -82,7 +82,7 @@ class ioMain extends Component {
     if (i > this.state.loop_length - 1) {
       i = 0
     }
-    
+
     this.setState({ current_freq: i})
   }
 
@@ -139,7 +139,7 @@ class ioMain extends Component {
       <div className="App">
         <h2>| Phone Synth |
           {/*Part {this.state.part} */}
-          </h2>
+        </h2>
         {this.renderFreqs()}
         <Oscillator value={this.state.freqs[this.state.current_freq]}/>
         <button
@@ -193,5 +193,5 @@ const styles = {
   }
 };
 
-export default ioMain;
+export default Controller;
 
