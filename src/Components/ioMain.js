@@ -59,10 +59,18 @@ class ioMain extends Component {
   }
 
   updateFreq(data){
+    data = JSON.parse(data);
+    console.log(data)
+    let freq_array = []
+    data.freq.map((freq) => {
+      freq_array.push(freq)
+    });
+    // console.log(freq_array);
+
     this.setState({
       ...this.state,
-      freqs: data.freqs[0],
-      loop_length: data.freqs[0].length
+      freqs: freq_array,
+      loop_length: freq_array.length
     });
 
 

@@ -41,10 +41,12 @@ class Oscillator extends Component {
     if (this.ctx) {
       this.gainNode.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015)
 
-      this.oscillators[0].frequency.setValueAtTime(this.props.value /2,  this.ctx.currentTime + 0);
-      this.oscillators[1].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
-      this.oscillators[2].frequency.setValueAtTime(this.props.value * 2, this.ctx.currentTime + 0);
-      this.oscillators[3].frequency.setValueAtTime(this.props.value, this.ctx.currentTime + 0);
+      let value = this.props.value || 0;
+
+      this.oscillators[0].frequency.setValueAtTime(value /2,  this.ctx.currentTime + 0);
+      this.oscillators[1].frequency.setValueAtTime(value, this.ctx.currentTime + 0);
+      this.oscillators[2].frequency.setValueAtTime(value * 2, this.ctx.currentTime + 0);
+      this.oscillators[3].frequency.setValueAtTime(value, this.ctx.currentTime + 0);
 
       this.gainNode.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.015)
     }
