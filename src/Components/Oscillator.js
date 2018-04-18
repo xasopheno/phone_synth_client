@@ -39,7 +39,7 @@ class Oscillator extends Component {
 
   play() {
     if (this.ctx) {
-      this.gainNode.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015)
+      this.gainNode.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
 
       let value = this.props.value || 0;
 

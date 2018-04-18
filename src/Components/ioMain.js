@@ -15,7 +15,7 @@ class ioMain extends Component {
       part: 1,
       current_freq: 0,
       loop_length: this.random_in_range(2, 4),
-      tempo: 200
+      tempo: this.random_in_range(200, 240)
     };
 
     this.socket = connect_to_socket();
@@ -30,6 +30,7 @@ class ioMain extends Component {
     this.socket.on('connected_to_server', this.statusUpdate.bind(this));
     this.socket.on('disconnect', function() {console.log('disconnected')});
     this.socket.on('freq', this.updateFreq.bind(this))
+    this.startLoop();
   }
 
   random_in_range(minimum, maximum) {
@@ -60,10 +61,10 @@ class ioMain extends Component {
 
   updateFreq(data){
     data = JSON.parse(data);
-    console.log(data)
-    let freq_array = []
+    let freq_array = [];
     data.freq.map((freq) => {
-      freq_array.push(freq)
+      freq_array.push(freq);
+      return true;
     });
     // console.log(freq_array);
 
@@ -72,7 +73,6 @@ class ioMain extends Component {
       freqs: freq_array,
       loop_length: freq_array.length
     });
-
 
     // if (this.interval) {
     //   this.iterateLoop();
@@ -150,11 +150,11 @@ class ioMain extends Component {
           </h2>
         {this.renderFreqs()}
         <Oscillator value={this.state.freqs[this.state.current_freq]}/>
-        <button
-          type="button"
-          onClick={this.sendmessage.bind(this)}>
-          note
-        </button>
+        {/*<button*/}
+          {/*type="button"*/}
+          {/*onClick={this.sendmessage.bind(this)}>*/}
+          {/*note*/}
+        {/*</button>*/}
 
         <div>
           <button
