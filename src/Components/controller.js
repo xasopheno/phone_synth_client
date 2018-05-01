@@ -64,11 +64,6 @@ class Controller extends Component {
       freqs: data.freqs[0],
       loop_length: data.freqs[0].length
     });
-
-
-    // if (this.interval) {
-    //   this.iterateLoop();
-    // }
   }
 
   startLoop(){

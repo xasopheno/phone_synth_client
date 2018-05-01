@@ -119,14 +119,6 @@ class ioMain extends Component {
     }
   }
 
-  prepareLabels() {
-    let labels = {};
-    for (let i = 1; i < 11; i++) {
-      labels[i] = i
-    }
-    return labels
-  }
-
   render() {
     const oscillatorValue = this.state.freqs[this.state.current_freq];
 
@@ -136,20 +128,6 @@ class ioMain extends Component {
           </h2>
         {this.renderFreqs()}
         <Oscillator value={oscillatorValue}/>
-
-        <div>
-          <button
-            type="button"
-            onClick={this.startLoop.bind(this)}>
-            loop
-          </button>
-          <button
-            type="button"
-            onClick={this.stopLoop.bind(this)}>
-            stop loop
-          </button>
-        </div>
-
       </div>
     );
   }
