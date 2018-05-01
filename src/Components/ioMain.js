@@ -12,7 +12,7 @@ class ioMain extends Component {
       count: null,
       current_freq: 0,
       loop_length: 1,
-      tempo: this.random_in_range(60, 180)
+      tempo: this.random_in_range(70, 180)
     };
 
     this.socket = connect_to_socket();
@@ -42,10 +42,6 @@ class ioMain extends Component {
       });
     }
     console.log('my number is:', data.count)
-  }
-
-  sendmessage() {
-    this.socket.emit('echo', {data: 'echo'});
   }
 
   updateFreq(data){
@@ -120,14 +116,12 @@ class ioMain extends Component {
   }
 
   render() {
-    const oscillatorValue = this.state.freqs[this.state.current_freq];
-
     return (
       <div className="App">
         <h2>| Phone Synth |
           </h2>
         {this.renderFreqs()}
-        <Oscillator value={oscillatorValue}/>
+        <Oscillator value={this.state.freqs[this.state.current_freq]}/>
       </div>
     );
   }

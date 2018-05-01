@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import Main from './Components/ioMain.js'
-// import MyMain from './Components/ioMain';
 
 class App extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      test: '| Phones Synth |'
-    }
+    this.state = {}
   }
   render() {
     return (
