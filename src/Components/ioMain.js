@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-// import ip from '../Server/ip.json';
 import Oscillator from './Oscillator';
-import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import connect_to_socket from '../helpers/connect_to_socket';
 
@@ -12,10 +10,9 @@ class ioMain extends Component {
       open: false,
       freqs: [0],
       count: null,
-      part: 1,
       current_freq: 0,
-      loop_length: this.random_in_range(2, 4),
-      tempo: this.random_in_range(200, 240)
+      loop_length: 1,
+      tempo: this.random_in_range(60, 180)
     };
 
     this.socket = connect_to_socket();
@@ -37,14 +34,6 @@ class ioMain extends Component {
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
   }
 
-  prepareBuffer() {
-    let buffer = [];
-    for (let i = 0; i < 10; i ++) {
-      buffer.push(0)
-    }
-    return buffer
-  }
-
   statusUpdate(data){
     if (this.state.count === null) {
       this.setState({
@@ -56,7 +45,7 @@ class ioMain extends Component {
   }
 
   sendmessage() {
-    this.socket.emit('echo', {data: 'echooo'});
+    this.socket.emit('echo', {data: 'echo'});
   }
 
   updateFreq(data){
@@ -66,7 +55,6 @@ class ioMain extends Component {
       freq_array.push(freq);
       return true;
     });
-    // console.log(freq_array);
 
     this.setState({
       ...this.state,
@@ -74,9 +62,6 @@ class ioMain extends Component {
       loop_length: freq_array.length
     });
 
-    // if (this.interval) {
-    //   this.iterateLoop();
-    // }
   }
 
   startLoop(){
@@ -143,18 +128,14 @@ class ioMain extends Component {
   }
 
   render() {
+    const oscillatorValue = this.state.freqs[this.state.current_freq];
+
     return (
       <div className="App">
         <h2>| Phone Synth |
-          {/*Part {this.state.part} */}
           </h2>
         {this.renderFreqs()}
-        <Oscillator value={this.state.freqs[this.state.current_freq]}/>
-        {/*<button*/}
-          {/*type="button"*/}
-          {/*onClick={this.sendmessage.bind(this)}>*/}
-          {/*note*/}
-        {/*</button>*/}
+        <Oscillator value={oscillatorValue}/>
 
         <div>
           <button
@@ -169,25 +150,6 @@ class ioMain extends Component {
           </button>
         </div>
 
-        <div style={{margin: "5%"}}>
-          <Slider
-            value={this.state.loop_length}
-            tooltip={true}
-            onChange={this.handleLoopLengthChange.bind(this)}
-            max={10}
-            min={1}
-          />
-        </div>
-
-        <div style={{margin: "5%"}}>
-          <Slider
-            value={this.state.tempo}
-            tooltip={true}
-            onChange={this.handleTempoChange.bind(this)}
-            max={1000}
-            min={50}
-          />
-        </div>
       </div>
     );
   }
