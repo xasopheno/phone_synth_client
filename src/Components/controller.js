@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import ip from '../Server/ip.json';
-import Oscillator from './Oscillator';
 import Slider from 'react-rangeslider'
 import 'react-rangeslider/lib/index.css'
 import connect_to_socket from '../helpers/connect_to_socket';
@@ -9,13 +7,8 @@ class Controller extends Component {
   constructor(props){
     super(props);
     this.state = {
-      open: false,
-      freqs: [0],
-      count: null,
-      part: 1,
-      current_freq: 0,
-      loop_length: this.random_in_range(2, 4),
-      tempo: 200
+      tempo: 200,
+      keyboard: [],
     };
 
     this.socket = connect_to_socket();
@@ -29,19 +22,10 @@ class Controller extends Component {
     this.socket.emit('client_connect', {data: 'I\'m connected!'});
     this.socket.on('connected_to_server', this.statusUpdate.bind(this));
     this.socket.on('disconnect', function() {console.log('disconnected')});
-    this.socket.on('freq', this.updateFreq.bind(this))
   }
 
   random_in_range(minimum, maximum) {
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum
-  }
-
-  prepareBuffer() {
-    let buffer = [];
-    for (let i = 0; i < 10; i ++) {
-      buffer.push(0)
-    }
-    return buffer
   }
 
   statusUpdate(data){
@@ -67,32 +51,11 @@ class Controller extends Component {
   }
 
   startLoop(){
-    if (!this.interval) {
-      this.interval = setInterval(() => this.iterateLoop(), this.state.tempo)
-    }
-  }
-
-  iterateLoop(){
-    let i = this.state.current_freq + 1;
-    if (i > this.state.loop_length - 1) {
-      i = 0
-    }
-
-    this.setState({ current_freq: i})
+    console.log('start loop')
   }
 
   stopLoop() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = null;
-    }
-  }
-
-  handleLoopLengthChange(value) {
-    this.setState({
-      ...this.state,
-      loop_length: value
-    })
+    console.log('stop loop')
   }
 
   handleTempoChange(value) {
@@ -105,22 +68,6 @@ class Controller extends Component {
     this.interval = setInterval(() => this.iterateLoop(), value)
   }
 
-  renderFreqs() {
-    return this.state.freqs.map((freq, index) => {
-      return this.renderFreq(freq, index)
-    })
-  }
-
-  renderFreq(freq, index) {
-    if (index === this.state.current_freq) {
-      return <p style={styles.random} key={index}>{freq}</p>
-    } else if (index >= this.state.loop_length) {
-      return <p style={{color: "#aaa"}} key={index}>{freq}</p>
-    } else {
-      return <p key={index}>{freq}</p>
-    }
-  }
-
   prepareLabels() {
     let labels = {};
     for (let i = 1; i < 11; i++) {
@@ -129,19 +76,26 @@ class Controller extends Component {
     return labels
   }
 
+  onKeyboardChange(e) {
+    e.preventDefault();
+    let note = e.key;
+    
+    let noteArray = this.state.keyboard;
+    if (e.key === 'Enter') {
+      noteArray = []
+    } else {
+      noteArray.push(e.which)
+    }
+    this.setState({
+      ...this.state,
+      keyboard: noteArray
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <h2>| Phone Synth |
-          {/*Part {this.state.part} */}
-        </h2>
-        {this.renderFreqs()}
-        <Oscillator value={this.state.freqs[this.state.current_freq]}/>
-        <button
-          type="button"
-          onClick={this.sendmessage.bind(this)}>
-          note
-        </button>
+        <h2>| Phone Synth Controller |</h2>
 
         <div>
           <button
@@ -157,36 +111,24 @@ class Controller extends Component {
         </div>
 
         <div style={{margin: "5%"}}>
-          <Slider
-            value={this.state.loop_length}
-            tooltip={true}
-            onChange={this.handleLoopLengthChange.bind(this)}
-            max={10}
-            min={1}
-          />
-        </div>
-
-        <div style={{margin: "5%"}}>
+          <p>Volume</p>
           <Slider
             value={this.state.tempo}
             tooltip={true}
             onChange={this.handleTempoChange.bind(this)}
-            max={1000}
+            max={500}
             min={50}
           />
+        </div>
+        <div>
+          <textarea value={this.state.keyboard} onKeyUp={this.onKeyboardChange.bind(this)}/>
         </div>
       </div>
     );
   }
 }
 
-const styles = {
-  random: {
-    overflowWrap: 'break-word',
-    textAlign: 'center',
-    color: '#ef6334',
-  }
-};
+const styles = {};
 
 export default Controller;
 
