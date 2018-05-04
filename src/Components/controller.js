@@ -19,6 +19,7 @@ class Controller extends Component {
   }
 
   componentWillMount() {
+    this.notes = this.noteList();
     this.socket.emit('client_connect', {data: 'I\'m connected!'});
     this.socket.on('connected_to_server', this.statusUpdate.bind(this));
     this.socket.on('disconnect', function() {console.log('disconnected')});
@@ -76,15 +77,35 @@ class Controller extends Component {
     return labels
   }
 
+  noteList() {
+    return {
+      83: {m: 60, n: 'C', f: "261.6",},
+      69: {m: 61, n: 'C#', f: "277.2",},
+      68: {m: 62, n: 'D', f: "293.7",},
+      82: {m: 63, n: 'D#', f: "311.1",},
+      70: {m: 64, n: 'E', f: "329.6",},
+      71: {m: 65, n: 'F', f: "349.2",},
+      89: {m: 66, n: 'F#', f: "370.0",},
+      72: {m: 67, n: 'G', f: "392.0",},
+      85: {m: 68, n: 'G#', f: "415.0",},
+      74: {m: 69, n: 'A', f: "440.0",},
+      73: {m: 70, n: 'A#', f: "446.2",},
+      75: {m: 71, n: 'B', f: "493.9",},
+      76: {m: 72, n: 'C', f: "523.3",},
+    };
+  }
+
   onKeyboardChange(e) {
     e.preventDefault();
-    let note = e.key;
-    
     let noteArray = this.state.keyboard;
+    console.log(this.notes[e.which]);
     if (e.key === 'Enter') {
       noteArray = []
     } else {
-      noteArray.push(e.which)
+      const value = this.notes[e.which];
+      if (value) {
+        noteArray.push(value.n)
+      }
     }
     this.setState({
       ...this.state,
@@ -121,14 +142,14 @@ class Controller extends Component {
           />
         </div>
         <div>
-          <textarea value={this.state.keyboard} onKeyUp={this.onKeyboardChange.bind(this)}/>
+          <textarea value={this.state.keyboard.join('')} onKeyUp={this.onKeyboardChange.bind(this)}/>
         </div>
       </div>
     );
   }
 }
 
-const styles = {};
+// const styles = {};
 
 export default Controller;
 
