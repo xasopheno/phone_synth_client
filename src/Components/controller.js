@@ -9,6 +9,7 @@ class Controller extends Component {
     this.state = {
       tempo: 200,
       keyboard: [],
+      values: []
     };
 
     this.socket = connect_to_socket();
@@ -98,19 +99,39 @@ class Controller extends Component {
   onKeyboardChange(e) {
     e.preventDefault();
     let noteArray = this.state.keyboard;
-    console.log(this.notes[e.which]);
-    if (e.key === 'Enter') {
-      noteArray = []
-    } else {
-      const value = this.notes[e.which];
-      if (value) {
-        noteArray.push(value.n)
+    console.log(e.which);
+    switch (e.which) {
+      case 8: {
+        noteArray.pop();
+        break;
+    }
+      case 13: {
+        this.sendArray();
+        noteArray = [];
+        break;
+    }
+      default: {
+        const value = this.notes[e.which];
+        if (value) {
+          noteArray.push(value)
+        }
       }
     }
     this.setState({
       ...this.state,
       keyboard: noteArray
     });
+  }
+
+  makeArrayToSend() {
+    return this.state.keyboard.map((value) => {
+      return parseInt(value.f, 10)
+    })
+  }
+
+  sendArray() {
+    const data = JSON.stringify({"freq": this.makeArrayToSend()});
+    this.socket.emit("freq_change", data)
   }
 
   render() {
@@ -142,7 +163,10 @@ class Controller extends Component {
           />
         </div>
         <div>
-          <textarea value={this.state.keyboard.join('')} onKeyUp={this.onKeyboardChange.bind(this)}/>
+          <textarea value={this.state.keyboard.map((value) => {
+            return value.n;
+          })
+            .join('')} onKeyDown={this.onKeyboardChange.bind(this)}/>
         </div>
       </div>
     );

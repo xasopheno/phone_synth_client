@@ -41,7 +41,6 @@ class Oscillator extends Component {
       if (value === 0) {
         this.gainNode.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.3);
       } else {
-        console.log(value)
         this.gainNode.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.001);
         this.oscillator.frequency.exponentialRampToValueAtTime(value,  this.ctx.currentTime + 0.003);
         this.gainNode.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.03)
