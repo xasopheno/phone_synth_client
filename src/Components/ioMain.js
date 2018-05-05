@@ -12,7 +12,7 @@ class ioMain extends Component {
       count: null,
       current_freq: 0,
       loop_length: 1,
-      tempo: this.random_in_range(70, 180)
+      tempo: this.random_in_range(100, 180)
     };
 
     this.socket = connect_to_socket();
